@@ -1,0 +1,8 @@
+mrjob
+pyspark
+snakebite
+hdfs
+thrift
+hbase-thrift
+happybase
+PyHive
