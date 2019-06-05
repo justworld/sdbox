@@ -1,4 +1,6 @@
-### hadoop系列练手 
+### 大数据学习项目
+——————————————————————————————————————————————  
+ 
 在python_src文件夹命令行运行python run.py -a [app_name]， app_name对应apps目录，目前有temperature。  
 分析代码在python_src.apps  
 
