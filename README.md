@@ -8,3 +8,4 @@ a repository to study anything
 - [数据库、nosql](https://github.com/justworld/sdbox/tree/master/database_study)
 - [测试](https://github.com/justworld/sdbox/tree/master/test_study)
 - [爬虫](https://github.com/justworld/sdbox/tree/master/spider_study)
+- [微信开发](https://github.com/justworld/sdbox/tree/master/wechat_study)
