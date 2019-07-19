@@ -11,7 +11,7 @@ from AWSIoTPythonSDK.MQTTLib import AWSIoTMQTTClient, DROP_OLDEST
 class AWSIoTClient:
     """
     AWS IoT client
-    base https://github.com/aws-samples/aws-iot-elf
+    base on https://github.com/aws-samples/aws-iot-elf
     RUN pip install awscli
     RUN aws configure set aws_access_key_id YOUR_AWS_ACCESS_KEY_ID # provide aws access key id
     RUN aws configure set aws_secret_access_key YOUR_AWS_SECRET_KEY # provide aws secret access key
