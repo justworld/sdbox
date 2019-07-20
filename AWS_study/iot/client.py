@@ -242,8 +242,30 @@ class AWSIoTClient:
         if not thing:
             return
 
+        if self.policy_name_key not in thing.keys():
+            policy_name, policy_arn = self._create_and_attach_policy(topic, thing_name, thing['certificateArn'])
+            things[thing_name][self.policy_name_key] = policy_name
+            things[thing_name][self.policy_arn_key] = policy_arn
+            self._update_things_config(things)
+
         mqttc = self._mqtt_client(thing_name)
         topic = '{0}/{1}'.format(topic, thing_name)
+        msg = {'msg': "{0}".format(message)}
+        # publish a JSON equivalent of this Thing's message with a timestamp
+        s = json.dumps(msg, separators=(', ', ': '))
+        mqttc.connect()  # keepalive default at 30 seconds
+        mqttc.publish(topic, s, qos)
+        # Now disconnect the MQTT Client
+        mqttc.disconnect()
+
+    def subscribe(self, thing_name, topic, callback):
+        things = self.get_things_config()
+        if not things:
+            return
+
+        thing = things.get(thing_name)
+        if not thing:
+            return
 
         if self.policy_name_key not in thing.keys():
             policy_name, policy_arn = self._create_and_attach_policy(topic, thing_name, thing['certificateArn'])
@@ -251,17 +273,18 @@ class AWSIoTClient:
             things[thing_name][self.policy_arn_key] = policy_arn
             self._update_things_config(things)
 
-        msg = {'msg': "{0}".format(message)}
-        # publish a JSON equivalent of this Thing's message with a timestamp
-        s = json.dumps(msg, separators=(', ', ': '))
-        mqttc.connect()
-        mqttc.publish(topic, s, qos)
+        mqttc = self._mqtt_client(thing_name)
+        mqttc.connect()  # keepalive default at 30 seconds
+        mqttc.subscribe(topic, 1, callback)
+        # keep connect until input something
+        next = input()
         # Now disconnect the MQTT Client
         mqttc.disconnect()
 
 
 if __name__ == '__main__':
     client = AWSIoTClient()
+
     # client.create_things(count=5)
     # client.delete_thing('9da8ed7bf06d43688a3f964194986921')
     # client.delete_thing('a2f54e95fc2f4de48d9a952e88b55a30')
@@ -270,3 +293,5 @@ if __name__ == '__main__':
     # print(client.get_things_config())
     # print(client.list_things())
     client.send_message('fab819c708684154972fd36b037d8f59', 'test', 'hello,world')
+    client.send_message('fab819c708684154972fd36b037d8f59', 'test', 'hello,world')
+    client.subscribe('fab819c708684154972fd36b037d8f59', 'test', lambda c, u, m: print(json.loads(m.payload)))
