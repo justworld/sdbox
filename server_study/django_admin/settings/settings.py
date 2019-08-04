@@ -29,7 +29,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'apps.simpleui',
+    'ui_apps.simpleui',
+    'ui_apps.import_export',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
