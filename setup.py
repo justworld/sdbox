@@ -11,5 +11,6 @@ setup(
     description='sdbox core',
     author='justworld',
     packages=find_packages('packages'),
+    package_dir={'':'packages'},
     install_requires=required
 )
