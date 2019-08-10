@@ -1,6 +1,7 @@
 import datetime
 from django.contrib import admin
 from import_export import resources
+from django.conf.urls import url
 from import_export.admin import ImportExportModelAdmin, ImportExportActionModelAdmin
 
 from core.admin import BaseModelAdmin
@@ -15,6 +16,24 @@ class DemoAdmin(BaseModelAdmin):
     search_fields = ('name',)
 
     actions_on_top = True
+
+    # 增加自定义按钮
+    actions = ['custom_dialog']
+
+    def get_urls(self):
+        urls = super(DemoAdmin, self).get_urls()
+        my_urls = [
+            url(r'^custom_dialog/$', self.admin_site.admin_view(self.custom_dialog), name='custom_dialog'),
+        ]
+        return my_urls + urls
+
+    def custom_dialog(self, request):
+        from django.http.response import JsonResponse
+        return JsonResponse({'msg': 'sdf'})
+
+    # 显示的文本，与django admin一致
+    custom_dialog.short_description = '测试按钮'
+    custom_dialog.url = '/admin/demo/demo/custom_dialog'
 
 
 # Register your models here.

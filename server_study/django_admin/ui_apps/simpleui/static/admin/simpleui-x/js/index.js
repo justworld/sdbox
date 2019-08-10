@@ -88,6 +88,7 @@
             breadcrumbs: [],
             language: window.language,
             pwdDialog: {},
+            actionDialog: {},
             themeDialogVisible: false,
             small: false,
             themes: SimpleuiThemes,
