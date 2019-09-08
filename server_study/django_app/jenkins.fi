@@ -1,0 +1,19 @@
+cd .../django_app
+
+echo "remove old image ..."
+cid=$(docker ps -a | grep django_app |awk '{print $1}')
+echo $cid
+if [ x"$cid" != x ]
+    then
+    docker rm -f $cid
+fi
+docker rmi django_app
+
+echo "build new image ..."
+docker build -t django_app .
+
+echo "start containe ..."
+docker run -p 8077:8077 -d django_app
+
+echo "current container ..."
+docker ps -a | grep django_app
