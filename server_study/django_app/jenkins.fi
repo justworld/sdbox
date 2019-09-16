@@ -7,13 +7,15 @@ if [ x"$cid" != x ]
     then
     docker rm -f $cid
 fi
-docker rmi django_app
 
 echo "build new image ..."
 docker build -t django_app .
 
 echo "start containe ..."
-docker run -p 8077:8077 -d django_app
+docker run -p 8077:8077 -d --restart=always django_app
 
 echo "current container ..."
 docker ps -a | grep django_app
+
+echo "clean docker ..."
+docker system prune -f
